@@ -26,5 +26,3 @@ TODO:
 
 * Add the counterpart of a "packer" that recreates a proper NDJSON file from a
   directory with unpacked JSON files.
-* (Optionally?) Use $ref to get rid of the nested JSON data from their parent
-  files.
