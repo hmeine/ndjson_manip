@@ -1,5 +1,5 @@
-OpenSearch NDJSON Decompiler
-============================
+OpenSearch NDJSON Unpacker
+==========================
 
 OpenSearch Dashboards (OSD) allows to export "saved objects" (most notably
 dashboards, visualizations, and index patterns) as .ndjson files.  There are a
