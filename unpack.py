@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import re
 
 
 parser = argparse.ArgumentParser(description="Unpack OSD export ndjson file")
@@ -20,7 +21,6 @@ parser.add_argument(
 parser.add_argument("ndjson_file", type=str, help="Path to the ndjson file to unpack")
 
 args = parser.parse_args()
-print(args)
 
 
 def lookup_key(obj, key: str):
@@ -46,12 +46,20 @@ def set_key(obj: dict, key: str, value):
         obj[key] = value
 
 
+def filename_stem(obj):
+    result = obj["id"]
+    re_illegal = re.compile("[/ ,\\?%*:|\"<>]")
+    return re_illegal.sub("_", result)
+
+
 with open(args.ndjson_file, "r") as f:
     for line in f:
         obj = json.loads(line)
         if set(obj) == {"exportedCount", "missingRefCount", "missingReferences"}:
             # This is a summary object, skip it
             continue
+
+        basename = filename_stem(obj)
 
         for extra_key in (
             "attributes.visState",
@@ -66,14 +74,14 @@ with open(args.ndjson_file, "r") as f:
                 continue
             else:
                 subobj = json.loads(subjson)
-                extra_filename = f"{obj['id']}_{extra_key}.json"
+                extra_filename = f"{basename}_{extra_key}.json"
                 with open(extra_filename, "w") as extra_file:
                     json.dump(subobj, extra_file, indent=4 if args.format else None)
                 if args.ref:
                     # Replace the JSON string with a reference
                     set_key(obj, extra_key, {"$ref": extra_filename})
 
-        json_filename = f"{obj['id']}.json"
+        json_filename = f"{basename}.json"
         with open(json_filename, "w") as json_file:
             json.dump(obj, json_file, indent=4 if args.format else None)
         print(
