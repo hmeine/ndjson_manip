@@ -1,0 +1,29 @@
+[project]
+name = "ndjson-manip"
+dynamic = ["version"]
+description = "OpenSearch NDJSON Unpacker"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+authors = [{ name = "Hans Meine", email = "hans_meine@gmx.net" }]
+license = "Apache-2.0"
+keywords = ["opensearch", "ndjson", "compiler", "decompiler", "separate", "pretty-print"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+ndjson-unpack = "ndjson_manip:unpack"
+ndjson-repack = "ndjson_manip:repack"
+
+#[project.urls]
+#Homepage = ""
+#Documentation = ""
+#Repository = ""
+#Issues = ""
