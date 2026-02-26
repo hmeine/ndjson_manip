@@ -1,4 +1,6 @@
 # /usr/bin/env python3
+#
+# Copyright 2026 by Hans Meine, licensed under the Apache License 2.0
 
 import argparse
 import json
