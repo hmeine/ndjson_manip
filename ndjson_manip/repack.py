@@ -56,10 +56,10 @@ def is_subtree_export(key, document):
 
 
 for key, document in sorted(json_data.items()):
-    print(key, "_" in key, isinstance(document, dict), document.get("type") != "query" if isinstance(document, dict) else "n/a")
+    #print(key, "_" in key, isinstance(document, dict), document.get("type") != "query" if isinstance(document, dict) else "n/a")
     if is_subtree_export(key, document):
         target_key, json_path = key.split("_", 1)
-        print(f"-> {target_key} {json_path}")
+        #print(f"-> {target_key} {json_path}")
         set_key(json_data[target_key], json_path, json.dumps(json_data.pop(key)))
 
 

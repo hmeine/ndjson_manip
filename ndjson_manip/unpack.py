@@ -2,10 +2,13 @@
 
 import argparse
 import json
+import os
 import re
 
 
-parser = argparse.ArgumentParser(description="Unpack OSD export ndjson file")
+parser = argparse.ArgumentParser(
+    description="Unpack OSD export ndjson file into individual JSON files."
+)
 parser.add_argument(
     "--no-format",
     dest="format",
@@ -18,8 +21,49 @@ parser.add_argument(
     action="store_false",
     help="Do not replace JSON string data with references",
 )
-parser.add_argument("ndjson_file", type=str, help="Path to the ndjson file to unpack")
-
+parser.add_argument(
+    "-f",
+    "--file",
+    dest="ndjson_file",
+    type=str,
+    help="Path to the ndjson file to unpack",
+)
+osd_group = parser.add_argument_group(
+    "OSD server access",
+    "Connection settings for an OpenSearch Dashboards (OSD) instance to be used instead of --file",
+)
+osd_group.add_argument(
+    "--url",
+    dest="osd_url",
+    type=str,
+    help="Base URL of the OSD instance to export saved objects from, e.g. http://localhost:5601",
+)
+osd_group.add_argument(
+    "--bearer",
+    dest="osd_bearer",
+    type=str,
+    help="Bearer token for authenticating with the OSD instance "
+    "(can also be set via OPENSEARCH_BEARER environment variable)",
+)
+osd_group.add_argument(
+    "--types",
+    dest="object_types",
+    type=str,
+    help="Comma-separated list of saved object types to export",
+    default="dashboard,query",
+)
+osd_group.add_argument(
+    "--no-references",
+    dest="include_references",
+    action="store_false",
+    help="Do not include references when exporting saved objects",
+)
+osd_group.add_argument(
+    "--tenant",
+    dest="osd_tenant",
+    type=str,
+    help="Security tenant to use when exporting saved objects (default: global)",
+)
 args = parser.parse_args()
 
 
@@ -48,11 +92,11 @@ def set_key(obj: dict, key: str, value):
 
 def filename_stem(obj):
     result = obj["id"]
-    re_illegal = re.compile("[/ ,\\?%*:|\"<>]")
+    re_illegal = re.compile('[/ ,\\?%*:|"<>]')
     return re_illegal.sub("_", result)
 
 
-with open(args.ndjson_file, "r") as f:
+def process_ndjson_export(f):
     for line in f:
         obj = json.loads(line)
         if set(obj) == {"exportedCount", "missingRefCount", "missingReferences"}:
@@ -87,3 +131,30 @@ with open(args.ndjson_file, "r") as f:
         print(
             json_filename, lookup_key(obj, "type"), lookup_key(obj, "attributes.title")
         )
+
+
+if args.ndjson_file:
+    if args.osd_url:
+        parser.error("Error: --file and --url are mutually exclusive")
+    with open(args.ndjson_file, "r") as f:
+        process_ndjson_export(f)
+else:
+    if not args.osd_url:
+        parser.error("Error: One of --file or --url must be specified")
+
+    import requests
+    body = {
+        "type": args.object_types.split(","),
+        "includeReferencesDeep": args.include_references,
+        "excludeExportDetails": True,
+    }
+    headers = {"osd-xsrf": "true", "Content-Type": "application/json"}
+    bearer_token = args.osd_bearer or os.environ.get("OPENSEARCH_BEARER")
+    if bearer_token:
+        headers["Authorization"] = f"Bearer {bearer_token}"
+    if args.osd_tenant:
+        headers["securitytenant"] = args.osd_tenant
+    url = f"{args.osd_url}/api/saved_objects/_export"
+    response = requests.post(url, headers=headers, json=body)
+    response.raise_for_status()
+    process_ndjson_export(response.iter_lines(decode_unicode=True))
