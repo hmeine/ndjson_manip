@@ -22,7 +22,14 @@ As a solution to these problems, I wrote this quick script to "unpack" the
 NDJSON into properly formatted JSON files, including an extraction of the nested
 JSON strings.
 
-TODO:
+The result can be version-controlled (with readable diffs after changes),
+possibly edited by hand, and eventually uploaded again using the "ndjson-repack"
+script that recreates a proper NDJSON file from a directory with unpacked JSON
+files.
 
-* Add the counterpart of a "packer" that recreates a proper NDJSON file from a
-  directory with unpacked JSON files.
+TODOs
+-----
+
+* make ndjson-repack also support uploading to OSD directly
+* support exporting only a single dashboard (instead of all dashboards / objects
+  of the same type)
