@@ -40,6 +40,7 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="Path to the ndjson file to unpack",
     )
+
     osd_group = parser.add_argument_group(
         "OSD server access",
         "Connection settings for an OpenSearch Dashboards (OSD) instance to be used instead of --file",
@@ -169,9 +170,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.ndjson_file and args.osd_url:
-        parser.error("Error: --file and --url are mutually exclusive")
+        parser.error("--file and --url are mutually exclusive")
     if not args.ndjson_file and not args.osd_url:
-        parser.error("Error: One of --file or --url must be specified")
+        parser.error("One of --file or --url must be specified")
 
     if args.ndjson_file:
         with args.ndjson_file.open("r", encoding="utf-8") as fh:
