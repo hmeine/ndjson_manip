@@ -19,8 +19,8 @@ classifiers = [
 ]
 
 [project.scripts]
-ndjson-unpack = "ndjson_manip:unpack"
-ndjson-repack = "ndjson_manip:repack"
+ndjson-unpack = "ndjson_manip.unpack:main"
+ndjson-repack = "ndjson_manip.repack:main"
 
 #[project.urls]
 #Homepage = ""
