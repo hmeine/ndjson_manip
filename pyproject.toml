@@ -1,6 +1,6 @@
 [project]
 name = "ndjson-manip"
-version = "0.1.0"
+version = "1.0.0"
 description = "OpenSearch NDJSON Unpacker"
 readme = "README.md"
 requires-python = ">=3.8"
