@@ -22,8 +22,5 @@ classifiers = [
 ndjson-unpack = "ndjson_manip.unpack:main"
 ndjson-repack = "ndjson_manip.repack:main"
 
-#[project.urls]
-#Homepage = ""
-#Documentation = ""
-#Repository = ""
-#Issues = ""
+[project.urls]
+Repository = "https://github.com/hmeine/ndjson_manip"
