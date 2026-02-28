@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any, Iterable, Sequence
@@ -22,6 +23,36 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="Path(s) to the JSON files (or directory)",
         nargs="+",
+    )
+
+    osd_group = parser.add_argument_group(
+        "OSD server access",
+        "Connection settings for an OpenSearch Dashboards (OSD) instance to be used instead of --output",
+    )
+    osd_group.add_argument(
+        "--url",
+        dest="osd_url",
+        type=str,
+        help="Base URL of the OSD instance to import saved objects into, e.g. http://localhost:5601",
+    )
+    osd_group.add_argument(
+        "--bearer",
+        dest="osd_bearer",
+        type=str,
+        help="Bearer token for authenticating with the OSD instance "
+        "(can also be set via OPENSEARCH_BEARER environment variable)",
+    )
+    osd_group.add_argument(
+        "--tenant",
+        dest="osd_tenant",
+        type=str,
+        help="Security tenant to use when importing saved objects (default: global)",
+    )
+    osd_group.add_argument(
+        "--overwrite",
+        dest="overwrite",
+        action="store_true",
+        help="Overwrite existing saved objects with the same ID (default: do not overwrite)",
     )
     return parser
 
@@ -65,13 +96,68 @@ def repack_documents(json_inputs: Sequence[Path]) -> str:
     return "\n".join(json.dumps(obj) for obj in json_data.values())
 
 
+def push_saved_objects(
+    *,
+    saved_objects: str,
+    osd_url: str,
+    bearer_token: str | None,
+    tenant: str | None,
+    overwrite: bool = False,
+) -> dict:
+    """Stream NDJSON from an OpenSearch Dashboards instance."""
+
+    import requests
+
+    headers = {"osd-xsrf": "true"}
+    if bearer_token:
+        headers["Authorization"] = f"Bearer {bearer_token}"
+    if tenant:
+        headers["securitytenant"] = tenant
+    params = {"overwrite": "true"} if overwrite else {}
+    url = f"{osd_url}/api/saved_objects/_import"
+    form_data = {
+        "file": (
+            "export.ndjson",
+            saved_objects.encode("utf-8"),
+            "application/ndjson",
+        )
+    }
+    response = requests.post(
+        url, headers=headers, files=form_data, params=params, stream=True
+    )
+    response.raise_for_status()
+    result = response.json()
+    sys.stdout.write(f"{result.get('successCount', 0)} objects imported successfully.\n")
+    for success in result.get("successResults", []):
+        sys.stdout.write(f"  {success.get('type')}: {success.get('meta', {}).get('title')}\n")
+    if errors := result.get("errors", []):
+        sys.stderr.write(f"ERROR: {len(errors)} objects failed to import:\n")
+        for error in errors:
+            sys.stderr.write(f"  {error.get('error', {}).get('type', 'error')} with {error.get('type')}: {error.get('meta', {}).get('title')}\n")
+    return result
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
+    if args.output and args.osd_url:
+        parser.error("--output and --url are mutually exclusive")
+
     ndjson = repack_documents(args.json_file_or_directory)
     if args.output:
         args.output.write_text(ndjson, encoding="utf-8")
+    elif args.osd_url:
+        bearer = args.osd_bearer or os.environ.get("OPENSEARCH_BEARER")
+        response = push_saved_objects(
+            saved_objects=ndjson,
+            osd_url=args.osd_url,
+            bearer_token=bearer,
+            tenant=args.osd_tenant,
+            overwrite=args.overwrite,
+        )
+        if not response.get("success"):
+            return 1
     else:
         sys.stdout.write(ndjson)
     return 0
