@@ -40,6 +40,11 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="Path to the ndjson file to unpack",
     )
+    parser.add_argument(
+        "--remove-version",
+        action="store_true",
+        help="Remove version fields from the exported JSON files (default: keep) for smaller diffs with version control systems",
+    )
 
     osd_group = parser.add_argument_group(
         "OSD server access",
@@ -92,6 +97,7 @@ def process_ndjson_export(
     pretty_print: bool = True,
     use_references: bool = True,
     output_dir: Path | None = None,
+    remove_version: bool = False,
 ) -> list[Path]:
     """Process the NDJSON iterator and write JSON files to the target directory."""
 
@@ -124,6 +130,11 @@ def process_ndjson_export(
                 created_files.append(extra_path)
                 if use_references:
                     set_key(obj, extra_key, {"$ref": extra_filename})
+
+        if remove_version:
+            for key in ("version", "updated_at"):
+                if key in obj:
+                    del obj[key]
 
         json_filename = f"{basename}.json"
         json_path = base_dir / json_filename
@@ -180,6 +191,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 fh,
                 pretty_print=args.format,
                 use_references=args.ref,
+                remove_version=args.remove_version,
             )
         return 0
 
@@ -195,6 +207,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         lines,
         pretty_print=args.format,
         use_references=args.ref,
+        remove_version=args.remove_version,
     )
     return 0
 
