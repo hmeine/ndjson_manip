@@ -30,6 +30,5 @@ files.
 TODOs
 -----
 
-* make ndjson-repack also support uploading to OSD directly
 * support exporting only a single dashboard (instead of all dashboards / objects
   of the same type)
