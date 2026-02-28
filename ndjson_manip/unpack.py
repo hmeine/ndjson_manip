@@ -8,6 +8,8 @@ import re
 from pathlib import Path
 from typing import Iterable, Sequence
 
+from .json_ops import lookup_key, set_key
+
 __all__ = [
     "process_ndjson_export",
     "fetch_saved_objects",
@@ -77,29 +79,6 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def lookup_key(obj, key: str):
-    """Check if the object has the given key."""
-    if not key:
-        return obj
-    if not isinstance(obj, dict):
-        raise KeyError
-    head, tail = key.split(".", 1) if "." in key else (key, "")
-    value = obj[head]
-    return lookup_key(value, tail)
-
-
-def set_key(obj: dict, key: str, value):
-    """Set the value of the given key in the object."""
-    assert key
-    assert isinstance(obj, dict)
-
-    if "." in key:
-        head, tail = key.split(".", 1)
-        set_key(obj[head], tail, value)
-    else:
-        obj[key] = value
-
-
 def filename_stem(obj):
     result = obj["id"]
     re_illegal = re.compile('[/ ,\\?%*:|"<>]')
@@ -150,7 +129,9 @@ def process_ndjson_export(
         with json_path.open("w", encoding="utf-8") as json_file:
             json.dump(obj, json_file, indent=4 if pretty_print else None)
         created_files.append(json_path)
-        print(json_filename, lookup_key(obj, "type"), lookup_key(obj, "attributes.title"))
+        print(
+            json_filename, lookup_key(obj, "type"), lookup_key(obj, "attributes.title")
+        )
 
     return created_files
 

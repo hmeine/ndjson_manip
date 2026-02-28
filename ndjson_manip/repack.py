@@ -7,6 +7,8 @@ import sys
 from pathlib import Path
 from typing import Any, Iterable, Sequence
 
+from .json_ops import set_key
+
 __all__ = ["repack_documents", "main"]
 
 
@@ -40,18 +42,6 @@ def _load_documents(json_files: Iterable[Path]) -> dict[str, Any]:
         with json_file.open("r", encoding="utf-8") as fh:
             documents[json_file.stem] = json.load(fh)
     return documents
-
-
-def set_key(obj: dict, key: str, value):
-    """Set the value of the given key in the object."""
-    assert key
-    assert isinstance(obj, dict)
-
-    if "." in key:
-        head, tail = key.split(".", 1)
-        set_key(obj[head], tail, value)
-    else:
-        obj[key] = value
 
 
 def _is_subtree_export(key: str, document) -> bool:
