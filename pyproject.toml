@@ -24,3 +24,9 @@ ndjson-repack = "ndjson_manip.repack:main"
 
 [project.urls]
 Repository = "https://github.com/hmeine/ndjson_manip"
+
+[project.optional-dependencies]
+test = ["pytest>=9"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
