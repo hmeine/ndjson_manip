@@ -1,0 +1,8 @@
+{
+    "title": "[Flights] Departure Count Map",
+    "type": "vega",
+    "aggs": [],
+    "params": {
+        "spec": "{\n  $schema: https://vega.github.io/schema/vega/v5.json\n  config: {\n    kibana: {type: \"map\", latitude: 25, longitude: -40, zoom: 3}\n  }\n  data: [\n    {\n      name: table\n      url: {\n        index: opensearch_dashboards_sample_data_flights\n        %context%: true\n        %timefield%: timestamp\n        body: {\n          size: 0\n          aggs: {\n            gridSplit: {\n              geotile_grid: {field: \"OriginLocation\", precision: 4, size: 10000}\n              aggs: {\n                gridCentroid: {\n                  geo_centroid: {\n                    field: \"OriginLocation\"\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n      format: {property: \"aggregations.gridSplit.buckets\"}\n      transform: [\n        {\n          type: geopoint\n          projection: projection\n          fields: [\n            gridCentroid.location.lon\n            gridCentroid.location.lat\n          ]\n        }\n      ]\n    }\n  ]\n  scales: [\n    {\n      name: gridSize\n      type: linear\n      domain: {data: \"table\", field: \"doc_count\"}\n      range: [\n        50\n        1000\n      ]\n    }\n  ]\n  marks: [\n    {\n      name: gridMarker\n      type: symbol\n      from: {data: \"table\"}\n      encode: {\n        update: {\n          size: {scale: \"gridSize\", field: \"doc_count\"}\n          xc: {signal: \"datum.x\"}\n          yc: {signal: \"datum.y\"}\n          tooltip: {\n            signal: \"{flights: datum.doc_count}\"\n          }\n        }\n      }\n    }\n  ]\n}"
+    }
+}

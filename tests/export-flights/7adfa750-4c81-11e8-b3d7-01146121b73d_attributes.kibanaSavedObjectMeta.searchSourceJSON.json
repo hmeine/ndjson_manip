@@ -1,0 +1,9 @@
+{
+    "query": {
+        "language": "kuery",
+        "query": ""
+    },
+    "filter": [],
+    "highlightAll": true,
+    "version": true
+}

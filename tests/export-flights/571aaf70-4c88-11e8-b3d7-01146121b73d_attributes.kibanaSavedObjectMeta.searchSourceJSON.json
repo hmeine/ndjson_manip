@@ -1,0 +1,10 @@
+{
+    "highlightAll": true,
+    "version": true,
+    "query": {
+        "language": "kuery",
+        "query": ""
+    },
+    "filter": [],
+    "indexRefName": "kibanaSavedObjectMeta.searchSourceJSON.index"
+}

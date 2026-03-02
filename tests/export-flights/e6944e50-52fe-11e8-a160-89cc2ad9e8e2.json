@@ -1,0 +1,30 @@
+{
+    "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+            "searchSourceJSON": {
+                "$ref": "e6944e50-52fe-11e8-a160-89cc2ad9e8e2_attributes.kibanaSavedObjectMeta.searchSourceJSON.json"
+            }
+        },
+        "title": "[Flights] Origin Country vs. Destination Country",
+        "uiStateJSON": "{\"vis\":{\"defaultColors\":{\"0 - 22\":\"rgb(247,251,255)\",\"22 - 44\":\"rgb(208,225,242)\",\"44 - 66\":\"rgb(148,196,223)\",\"66 - 88\":\"rgb(74,152,201)\",\"88 - 110\":\"rgb(23,100,171)\"}}}",
+        "version": 1,
+        "visState": {
+            "$ref": "e6944e50-52fe-11e8-a160-89cc2ad9e8e2_attributes.visState.json"
+        }
+    },
+    "id": "e6944e50-52fe-11e8-a160-89cc2ad9e8e2",
+    "migrationVersion": {
+        "visualization": "7.10.0"
+    },
+    "references": [
+        {
+            "id": "d3d7af60-4c81-11e8-b3d7-01146121b73d",
+            "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+            "type": "index-pattern"
+        }
+    ],
+    "type": "visualization",
+    "updated_at": "2026-03-02T19:53:57.528Z",
+    "version": "WzM3LDVd"
+}

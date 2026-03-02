@@ -1,0 +1,30 @@
+{
+    "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+            "searchSourceJSON": {
+                "$ref": "c8fc3d30-4c87-11e8-b3d7-01146121b73d_attributes.kibanaSavedObjectMeta.searchSourceJSON.json"
+            }
+        },
+        "title": "[Flights] Flight Count and Average Ticket Price",
+        "uiStateJSON": "{\"vis\":{\"legendOpen\":true,\"colors\":{\"Average Ticket Price\":\"#629E51\",\"Flight Count\":\"#AEA2E0\"}}}",
+        "version": 1,
+        "visState": {
+            "$ref": "c8fc3d30-4c87-11e8-b3d7-01146121b73d_attributes.visState.json"
+        }
+    },
+    "id": "c8fc3d30-4c87-11e8-b3d7-01146121b73d",
+    "migrationVersion": {
+        "visualization": "7.10.0"
+    },
+    "references": [
+        {
+            "id": "d3d7af60-4c81-11e8-b3d7-01146121b73d",
+            "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+            "type": "index-pattern"
+        }
+    ],
+    "type": "visualization",
+    "updated_at": "2026-03-02T19:53:57.528Z",
+    "version": "WzI0LDVd"
+}

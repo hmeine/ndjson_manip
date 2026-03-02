@@ -1,0 +1,24 @@
+{
+    "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+            "searchSourceJSON": {
+                "$ref": "ed78a660-53a0-11e8-acbd-0be0ad9d822b_attributes.kibanaSavedObjectMeta.searchSourceJSON.json"
+            }
+        },
+        "title": "[Flights] Airport Connections (Hover Over Airport)",
+        "uiStateJSON": "{}",
+        "version": 1,
+        "visState": {
+            "$ref": "ed78a660-53a0-11e8-acbd-0be0ad9d822b_attributes.visState.json"
+        }
+    },
+    "id": "ed78a660-53a0-11e8-acbd-0be0ad9d822b",
+    "migrationVersion": {
+        "visualization": "7.10.0"
+    },
+    "references": [],
+    "type": "visualization",
+    "updated_at": "2026-03-02T19:53:57.528Z",
+    "version": "WzQwLDVd"
+}

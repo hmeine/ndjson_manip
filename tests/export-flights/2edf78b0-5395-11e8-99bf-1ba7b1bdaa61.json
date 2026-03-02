@@ -1,0 +1,30 @@
+{
+    "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+            "searchSourceJSON": {
+                "$ref": "2edf78b0-5395-11e8-99bf-1ba7b1bdaa61_attributes.kibanaSavedObjectMeta.searchSourceJSON.json"
+            }
+        },
+        "title": "[Flights] Average Ticket Price",
+        "uiStateJSON": "{}",
+        "version": 1,
+        "visState": {
+            "$ref": "2edf78b0-5395-11e8-99bf-1ba7b1bdaa61_attributes.visState.json"
+        }
+    },
+    "id": "2edf78b0-5395-11e8-99bf-1ba7b1bdaa61",
+    "migrationVersion": {
+        "visualization": "7.10.0"
+    },
+    "references": [
+        {
+            "id": "d3d7af60-4c81-11e8-b3d7-01146121b73d",
+            "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+            "type": "index-pattern"
+        }
+    ],
+    "type": "visualization",
+    "updated_at": "2026-03-02T19:53:57.528Z",
+    "version": "WzM5LDVd"
+}

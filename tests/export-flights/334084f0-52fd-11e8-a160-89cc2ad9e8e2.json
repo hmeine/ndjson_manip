@@ -1,0 +1,30 @@
+{
+    "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+            "searchSourceJSON": {
+                "$ref": "334084f0-52fd-11e8-a160-89cc2ad9e8e2_attributes.kibanaSavedObjectMeta.searchSourceJSON.json"
+            }
+        },
+        "title": "[Flights] Departures Count Map",
+        "uiStateJSON": "{}",
+        "version": 1,
+        "visState": {
+            "$ref": "334084f0-52fd-11e8-a160-89cc2ad9e8e2_attributes.visState.json"
+        }
+    },
+    "id": "334084f0-52fd-11e8-a160-89cc2ad9e8e2",
+    "migrationVersion": {
+        "visualization": "7.10.0"
+    },
+    "references": [
+        {
+            "id": "d3d7af60-4c81-11e8-b3d7-01146121b73d",
+            "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+            "type": "index-pattern"
+        }
+    ],
+    "type": "visualization",
+    "updated_at": "2026-03-02T19:53:57.528Z",
+    "version": "WzM0LDVd"
+}

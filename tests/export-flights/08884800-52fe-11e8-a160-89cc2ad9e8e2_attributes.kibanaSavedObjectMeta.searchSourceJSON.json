@@ -1,0 +1,35 @@
+{
+    "filter": [
+        {
+            "meta": {
+                "negate": false,
+                "disabled": false,
+                "alias": null,
+                "type": "phrase",
+                "key": "Cancelled",
+                "value": "true",
+                "params": {
+                    "query": true,
+                    "type": "phrase"
+                },
+                "indexRefName": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index"
+            },
+            "query": {
+                "match": {
+                    "Cancelled": {
+                        "query": true,
+                        "type": "phrase"
+                    }
+                }
+            },
+            "$state": {
+                "store": "appState"
+            }
+        }
+    ],
+    "query": {
+        "query": "",
+        "language": "kuery"
+    },
+    "indexRefName": "kibanaSavedObjectMeta.searchSourceJSON.index"
+}

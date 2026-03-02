@@ -1,0 +1,63 @@
+{
+    "attributes": {
+        "description": "",
+        "filters": [
+            {
+                "$state": {
+                    "store": "appState"
+                },
+                "meta": {
+                    "alias": null,
+                    "controlledBy": "1525098134264",
+                    "disabled": false,
+                    "index": "d3d7af60-4c81-11e8-b3d7-01146121b73d",
+                    "key": "OriginCityName",
+                    "negate": false,
+                    "params": {
+                        "query": "Berlin"
+                    },
+                    "type": "phrase"
+                },
+                "query": {
+                    "match_phrase": {
+                        "OriginCityName": "Berlin"
+                    }
+                }
+            },
+            {
+                "$state": {
+                    "store": "appState"
+                },
+                "meta": {
+                    "alias": null,
+                    "controlledBy": "1525099307278",
+                    "disabled": false,
+                    "index": "d3d7af60-4c81-11e8-b3d7-01146121b73d",
+                    "key": "AvgTicketPrice",
+                    "negate": false,
+                    "params": {
+                        "gte": 108,
+                        "lte": 1196
+                    },
+                    "type": "range"
+                },
+                "range": {
+                    "AvgTicketPrice": {
+                        "gte": 108,
+                        "lte": 1196
+                    }
+                }
+            }
+        ],
+        "query": {
+            "language": "kuery",
+            "query": ""
+        },
+        "title": "Flights from Berlin"
+    },
+    "id": "Flights from Berlin",
+    "references": [],
+    "type": "query",
+    "updated_at": "2026-03-02T19:55:56.744Z",
+    "version": "WzQ0LDVd"
+}

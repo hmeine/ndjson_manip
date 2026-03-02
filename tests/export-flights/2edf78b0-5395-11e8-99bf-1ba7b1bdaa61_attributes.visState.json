@@ -1,0 +1,44 @@
+{
+    "title": "[Flights] Average Ticket Price",
+    "type": "metric",
+    "params": {
+        "addTooltip": true,
+        "addLegend": false,
+        "type": "metric",
+        "metric": {
+            "percentageMode": false,
+            "useRanges": false,
+            "colorSchema": "Green to Red",
+            "metricColorMode": "None",
+            "colorsRange": [
+                {
+                    "from": 0,
+                    "to": 10000
+                }
+            ],
+            "labels": {
+                "show": true
+            },
+            "invertColors": false,
+            "style": {
+                "bgFill": "#000",
+                "bgColor": false,
+                "labelColor": false,
+                "subText": "",
+                "fontSize": 36
+            }
+        }
+    },
+    "aggs": [
+        {
+            "id": "1",
+            "enabled": true,
+            "type": "avg",
+            "schema": "metric",
+            "params": {
+                "field": "AvgTicketPrice",
+                "customLabel": "Avg. Ticket Price"
+            }
+        }
+    ]
+}

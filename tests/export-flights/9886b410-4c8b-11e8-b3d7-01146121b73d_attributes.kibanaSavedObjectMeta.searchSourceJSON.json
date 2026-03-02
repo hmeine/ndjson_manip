@@ -1,0 +1,35 @@
+{
+    "filter": [
+        {
+            "meta": {
+                "negate": true,
+                "disabled": false,
+                "alias": null,
+                "type": "phrase",
+                "key": "FlightDelayMin",
+                "value": "0",
+                "params": {
+                    "query": 0,
+                    "type": "phrase"
+                },
+                "indexRefName": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index"
+            },
+            "query": {
+                "match": {
+                    "FlightDelayMin": {
+                        "query": 0,
+                        "type": "phrase"
+                    }
+                }
+            },
+            "$state": {
+                "store": "appState"
+            }
+        }
+    ],
+    "query": {
+        "query": "",
+        "language": "kuery"
+    },
+    "indexRefName": "kibanaSavedObjectMeta.searchSourceJSON.index"
+}

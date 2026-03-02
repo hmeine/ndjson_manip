@@ -1,0 +1,52 @@
+{
+    "title": "[Flights] Controls",
+    "type": "input_control_vis",
+    "params": {
+        "controls": [
+            {
+                "id": "1525098134264",
+                "fieldName": "OriginCityName",
+                "parent": "",
+                "label": "Origin City",
+                "type": "list",
+                "options": {
+                    "type": "terms",
+                    "multiselect": true,
+                    "size": 100,
+                    "order": "desc"
+                },
+                "indexPatternRefName": "control_0_index_pattern"
+            },
+            {
+                "id": "1525099277699",
+                "fieldName": "DestCityName",
+                "parent": "1525098134264",
+                "label": "Destination City",
+                "type": "list",
+                "options": {
+                    "type": "terms",
+                    "multiselect": true,
+                    "size": 100,
+                    "order": "desc"
+                },
+                "indexPatternRefName": "control_1_index_pattern"
+            },
+            {
+                "id": "1525099307278",
+                "fieldName": "AvgTicketPrice",
+                "parent": "",
+                "label": "Average Ticket Price",
+                "type": "range",
+                "options": {
+                    "decimalPlaces": 0,
+                    "step": 10
+                },
+                "indexPatternRefName": "control_2_index_pattern"
+            }
+        ],
+        "updateFiltersOnChange": false,
+        "useTimeFilter": true,
+        "pinFilters": false
+    },
+    "aggs": []
+}

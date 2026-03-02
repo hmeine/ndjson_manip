@@ -1,0 +1,40 @@
+{
+    "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+            "searchSourceJSON": {
+                "$ref": "aeb212e0-4c84-11e8-b3d7-01146121b73d_attributes.kibanaSavedObjectMeta.searchSourceJSON.json"
+            }
+        },
+        "title": "[Flights] Controls",
+        "uiStateJSON": "{}",
+        "version": 1,
+        "visState": {
+            "$ref": "aeb212e0-4c84-11e8-b3d7-01146121b73d_attributes.visState.json"
+        }
+    },
+    "id": "aeb212e0-4c84-11e8-b3d7-01146121b73d",
+    "migrationVersion": {
+        "visualization": "7.10.0"
+    },
+    "references": [
+        {
+            "id": "d3d7af60-4c81-11e8-b3d7-01146121b73d",
+            "name": "control_0_index_pattern",
+            "type": "index-pattern"
+        },
+        {
+            "id": "d3d7af60-4c81-11e8-b3d7-01146121b73d",
+            "name": "control_1_index_pattern",
+            "type": "index-pattern"
+        },
+        {
+            "id": "d3d7af60-4c81-11e8-b3d7-01146121b73d",
+            "name": "control_2_index_pattern",
+            "type": "index-pattern"
+        }
+    ],
+    "type": "visualization",
+    "updated_at": "2026-03-02T19:53:57.528Z",
+    "version": "WzIzLDVd"
+}

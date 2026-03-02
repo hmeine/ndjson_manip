@@ -1,0 +1,73 @@
+{
+    "title": "[Flights] Total Flight Cancellations",
+    "type": "gauge",
+    "params": {
+        "type": "gauge",
+        "addTooltip": true,
+        "addLegend": true,
+        "isDisplayWarning": false,
+        "gauge": {
+            "extendRange": true,
+            "percentageMode": false,
+            "gaugeType": "Arc",
+            "gaugeStyle": "Full",
+            "backStyle": "Full",
+            "orientation": "vertical",
+            "colorSchema": "Blues",
+            "gaugeColorMode": "Labels",
+            "colorsRange": [
+                {
+                    "from": 0,
+                    "to": 75
+                },
+                {
+                    "from": 75,
+                    "to": 150
+                },
+                {
+                    "from": 150,
+                    "to": 225
+                },
+                {
+                    "from": 225,
+                    "to": 300
+                }
+            ],
+            "invertColors": true,
+            "labels": {
+                "show": false,
+                "color": "black"
+            },
+            "scale": {
+                "show": false,
+                "labels": false,
+                "color": "#333"
+            },
+            "type": "meter",
+            "style": {
+                "bgWidth": 0.9,
+                "width": 0.9,
+                "mask": false,
+                "bgMask": false,
+                "maskBars": 50,
+                "bgFill": "#eee",
+                "bgColor": false,
+                "subText": "",
+                "fontSize": 60,
+                "labelColor": true
+            },
+            "alignment": "horizontal"
+        }
+    },
+    "aggs": [
+        {
+            "id": "1",
+            "enabled": true,
+            "type": "count",
+            "schema": "metric",
+            "params": {
+                "customLabel": "Total Cancellations"
+            }
+        }
+    ]
+}

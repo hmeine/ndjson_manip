@@ -1,0 +1,152 @@
+{
+    "title": "[Flights] Flight Count and Average Ticket Price",
+    "type": "area",
+    "params": {
+        "type": "area",
+        "grid": {
+            "categoryLines": false,
+            "style": {
+                "color": "#eee"
+            }
+        },
+        "categoryAxes": [
+            {
+                "id": "CategoryAxis-1",
+                "type": "category",
+                "position": "bottom",
+                "show": true,
+                "style": {},
+                "scale": {
+                    "type": "linear"
+                },
+                "labels": {
+                    "show": true,
+                    "truncate": 100
+                },
+                "title": {}
+            }
+        ],
+        "valueAxes": [
+            {
+                "id": "ValueAxis-1",
+                "name": "LeftAxis-1",
+                "type": "value",
+                "position": "left",
+                "show": true,
+                "style": {},
+                "scale": {
+                    "type": "linear",
+                    "mode": "normal"
+                },
+                "labels": {
+                    "show": true,
+                    "rotate": 0,
+                    "filter": false,
+                    "truncate": 100
+                },
+                "title": {
+                    "text": "Average Ticket Price"
+                }
+            },
+            {
+                "id": "ValueAxis-2",
+                "name": "RightAxis-1",
+                "type": "value",
+                "position": "right",
+                "show": true,
+                "style": {},
+                "scale": {
+                    "type": "linear",
+                    "mode": "normal"
+                },
+                "labels": {
+                    "show": true,
+                    "rotate": 0,
+                    "filter": false,
+                    "truncate": 100
+                },
+                "title": {
+                    "text": "Flight Count"
+                }
+            }
+        ],
+        "seriesParams": [
+            {
+                "show": true,
+                "mode": "stacked",
+                "type": "area",
+                "drawLinesBetweenPoints": true,
+                "showCircles": false,
+                "interpolate": "linear",
+                "lineWidth": 2,
+                "data": {
+                    "id": "5",
+                    "label": "Flight Count"
+                },
+                "valueAxis": "ValueAxis-2"
+            },
+            {
+                "show": true,
+                "mode": "stacked",
+                "type": "line",
+                "drawLinesBetweenPoints": false,
+                "showCircles": true,
+                "interpolate": "linear",
+                "data": {
+                    "id": "4",
+                    "label": "Average Ticket Price"
+                },
+                "valueAxis": "ValueAxis-1",
+                "lineWidth": 2
+            }
+        ],
+        "addTooltip": true,
+        "addLegend": true,
+        "legendPosition": "right",
+        "times": [],
+        "addTimeMarker": false,
+        "radiusRatio": 13
+    },
+    "aggs": [
+        {
+            "id": "3",
+            "enabled": true,
+            "type": "date_histogram",
+            "schema": "segment",
+            "params": {
+                "field": "timestamp",
+                "interval": "auto",
+                "min_doc_count": 1,
+                "extended_bounds": {}
+            }
+        },
+        {
+            "id": "5",
+            "enabled": true,
+            "type": "count",
+            "schema": "metric",
+            "params": {
+                "customLabel": "Flight Count"
+            }
+        },
+        {
+            "id": "4",
+            "enabled": true,
+            "type": "avg",
+            "schema": "metric",
+            "params": {
+                "field": "AvgTicketPrice",
+                "customLabel": "Average Ticket Price"
+            }
+        },
+        {
+            "id": "2",
+            "enabled": true,
+            "type": "avg",
+            "schema": "radius",
+            "params": {
+                "field": "AvgTicketPrice"
+            }
+        }
+    ]
+}

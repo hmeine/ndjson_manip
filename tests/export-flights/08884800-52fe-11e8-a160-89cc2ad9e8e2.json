@@ -1,0 +1,35 @@
+{
+    "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+            "searchSourceJSON": {
+                "$ref": "08884800-52fe-11e8-a160-89cc2ad9e8e2_attributes.kibanaSavedObjectMeta.searchSourceJSON.json"
+            }
+        },
+        "title": "[Flights] Total Flight Cancellations",
+        "uiStateJSON": "{\"vis\":{\"defaultColors\":{\"0 - 75\":\"rgb(8,48,107)\",\"75 - 150\":\"rgb(55,135,192)\",\"150 - 225\":\"rgb(171,208,230)\",\"225 - 300\":\"rgb(247,251,255)\"}}}",
+        "version": 1,
+        "visState": {
+            "$ref": "08884800-52fe-11e8-a160-89cc2ad9e8e2_attributes.visState.json"
+        }
+    },
+    "id": "08884800-52fe-11e8-a160-89cc2ad9e8e2",
+    "migrationVersion": {
+        "visualization": "7.10.0"
+    },
+    "references": [
+        {
+            "id": "d3d7af60-4c81-11e8-b3d7-01146121b73d",
+            "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+            "type": "index-pattern"
+        },
+        {
+            "id": "d3d7af60-4c81-11e8-b3d7-01146121b73d",
+            "name": "kibanaSavedObjectMeta.searchSourceJSON.filter[0].meta.index",
+            "type": "index-pattern"
+        }
+    ],
+    "type": "visualization",
+    "updated_at": "2026-03-02T19:53:57.528Z",
+    "version": "WzM2LDVd"
+}

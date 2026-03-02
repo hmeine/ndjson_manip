@@ -1,0 +1,8 @@
+{
+    "filter": [],
+    "query": {
+        "query": "",
+        "language": "kuery"
+    },
+    "indexRefName": "kibanaSavedObjectMeta.searchSourceJSON.index"
+}

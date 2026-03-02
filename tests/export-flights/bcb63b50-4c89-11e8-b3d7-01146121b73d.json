@@ -1,0 +1,24 @@
+{
+    "attributes": {
+        "description": "",
+        "kibanaSavedObjectMeta": {
+            "searchSourceJSON": {
+                "$ref": "bcb63b50-4c89-11e8-b3d7-01146121b73d_attributes.kibanaSavedObjectMeta.searchSourceJSON.json"
+            }
+        },
+        "title": "[Flights] Delays & Cancellations",
+        "uiStateJSON": "{}",
+        "version": 1,
+        "visState": {
+            "$ref": "bcb63b50-4c89-11e8-b3d7-01146121b73d_attributes.visState.json"
+        }
+    },
+    "id": "bcb63b50-4c89-11e8-b3d7-01146121b73d",
+    "migrationVersion": {
+        "visualization": "7.10.0"
+    },
+    "references": [],
+    "type": "visualization",
+    "updated_at": "2026-03-02T19:53:57.528Z",
+    "version": "WzI4LDVd"
+}
