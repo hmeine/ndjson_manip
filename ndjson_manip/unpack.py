@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Iterable, Sequence
 
 from .json_ops import lookup_key, set_key
+from .osd_connection import build_osd_parser_group
 
 __all__ = [
     "process_ndjson_export",
@@ -46,23 +47,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Remove version fields from the exported JSON files (default: keep) for smaller diffs with version control systems",
     )
 
-    osd_group = parser.add_argument_group(
-        "OSD server access",
-        "Connection settings for an OpenSearch Dashboards (OSD) instance to be used instead of --file",
-    )
-    osd_group.add_argument(
-        "--url",
-        dest="osd_url",
-        type=str,
-        help="Base URL of the OSD instance to export saved objects from, e.g. http://localhost:5601",
-    )
-    osd_group.add_argument(
-        "--bearer",
-        dest="osd_bearer",
-        type=str,
-        help="Bearer token for authenticating with the OSD instance "
-        "(can also be set via OPENSEARCH_BEARER environment variable)",
-    )
+    osd_group = build_osd_parser_group(parser)
     osd_group.add_argument(
         "--types",
         dest="object_types",
@@ -76,12 +61,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_false",
         help="Do not include references when exporting saved objects",
     )
-    osd_group.add_argument(
-        "--tenant",
-        dest="osd_tenant",
-        type=str,
-        help="Security tenant to use when exporting saved objects (default: global)",
-    )
+
     return parser
 
 

@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, Iterable, Sequence
 
 from .json_ops import set_key
+from .osd_connection import build_osd_parser_group
 
 __all__ = ["repack_documents", "main"]
 
@@ -25,35 +26,14 @@ def build_parser() -> argparse.ArgumentParser:
         nargs="+",
     )
 
-    osd_group = parser.add_argument_group(
-        "OSD server access",
-        "Connection settings for an OpenSearch Dashboards (OSD) instance to be used instead of --output",
-    )
-    osd_group.add_argument(
-        "--url",
-        dest="osd_url",
-        type=str,
-        help="Base URL of the OSD instance to import saved objects into, e.g. http://localhost:5601",
-    )
-    osd_group.add_argument(
-        "--bearer",
-        dest="osd_bearer",
-        type=str,
-        help="Bearer token for authenticating with the OSD instance "
-        "(can also be set via OPENSEARCH_BEARER environment variable)",
-    )
-    osd_group.add_argument(
-        "--tenant",
-        dest="osd_tenant",
-        type=str,
-        help="Security tenant to use when importing saved objects (default: global)",
-    )
+    osd_group = build_osd_parser_group(parser)
     osd_group.add_argument(
         "--overwrite",
         dest="overwrite",
         action="store_true",
         help="Overwrite existing saved objects with the same ID (default: do not overwrite)",
     )
+
     return parser
 
 
