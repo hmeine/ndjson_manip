@@ -135,6 +135,7 @@ def fetch_saved_objects(
     object_types: str,
     include_references: bool,
     tenant: str | None,
+    verify_ssl: bool = True,
 ) -> Iterable[str]:
     """Stream NDJSON from an OpenSearch Dashboards instance."""
 
@@ -151,7 +152,9 @@ def fetch_saved_objects(
     if tenant:
         headers["securitytenant"] = tenant
     url = f"{osd_url}/api/saved_objects/_export"
-    response = requests.post(url, headers=headers, json=body, stream=True)
+    response = requests.post(
+        url, headers=headers, json=body, stream=True, verify=verify_ssl
+    )
     response.raise_for_status()
     return response.iter_lines(decode_unicode=True)
 
@@ -182,6 +185,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         object_types=args.object_types,
         include_references=args.include_references,
         tenant=args.osd_tenant,
+        verify_ssl=args.verify_ssl,
     )
     process_ndjson_export(
         lines,

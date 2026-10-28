@@ -16,6 +16,13 @@ def build_osd_parser_group(parser: argparse.ArgumentParser) -> argparse._Argumen
         help="Base URL of the OSD instance to connect to, e.g. http://localhost:5601",
     )
     osd_group.add_argument(
+        "--insecure",
+        dest="verify_ssl",
+        action="store_false",
+        default=True,
+        help="Disable SSL certificate verification when connecting to OSD",
+    )
+    osd_group.add_argument(
         "--bearer",
         dest="osd_bearer",
         type=str,

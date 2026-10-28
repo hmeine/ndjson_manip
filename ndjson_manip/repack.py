@@ -80,6 +80,7 @@ def push_saved_objects(
     *,
     saved_objects: str,
     osd_url: str,
+    verify_ssl: bool = True,
     bearer_token: str | None,
     tenant: str | None,
     overwrite: bool = False,
@@ -108,6 +109,7 @@ def push_saved_objects(
         files=form_data,
         params=params,
         stream=True,
+        verify=verify_ssl,
     )
     response.raise_for_status()
     result = response.json()
@@ -142,6 +144,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         response = push_saved_objects(
             saved_objects=ndjson,
             osd_url=args.osd_url,
+            verify_ssl=args.verify_ssl,
             bearer_token=bearer,
             tenant=args.osd_tenant,
             overwrite=args.overwrite,
