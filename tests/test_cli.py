@@ -60,7 +60,7 @@ def test_unpack(tmp_path, env_with_pythonpath, repo_root):
 
 def test_repack(tmp_path, env_with_pythonpath, repo_root):
     unpacked_directory = repo_root / "tests" / "export-flights"
-    expected_ndjson = repo_root / "tests" / "export-flights.ndjson"
+    #expected_ndjson = repo_root / "tests" / "export-flights.ndjson"
 
     repacked_ndjson = tmp_path / "repacked.ndjson"
     subprocess.run(

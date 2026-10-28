@@ -156,7 +156,7 @@ def fetch_saved_objects(
         url, headers=headers, json=body, stream=True, verify=verify_ssl
     )
     response.raise_for_status()
-    return response.iter_lines(decode_unicode=True)
+    return response.iter_lines(decode_unicode=True)  # type: ignore
 
 
 def main(argv: Sequence[str] | None = None) -> int:
