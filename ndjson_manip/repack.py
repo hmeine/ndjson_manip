@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any, Iterable, Sequence
 
 from .json_ops import set_key
-from .osd_connection import build_osd_parser_group
+from .osd_connection import OSDConnectionSettings, build_osd_parser_group
 
 __all__ = ["repack_documents", "main"]
 
@@ -79,23 +79,16 @@ def repack_documents(json_inputs: Sequence[Path]) -> str:
 def push_saved_objects(
     *,
     saved_objects: str,
-    osd_url: str,
-    verify_ssl: bool = True,
-    bearer_token: str | None,
-    tenant: str | None,
+    osd_connection: OSDConnectionSettings,
     overwrite: bool = False,
 ) -> dict:
     """Stream NDJSON from an OpenSearch Dashboards instance."""
 
     import requests
 
-    headers = {"osd-xsrf": "true"}
-    if bearer_token:
-        headers["Authorization"] = f"Bearer {bearer_token}"
-    if tenant:
-        headers["securitytenant"] = tenant
+    headers = osd_connection.headers()
     params = {"overwrite": "true"} if overwrite else {}
-    url = f"{osd_url}/api/saved_objects/_import"
+    url = f"{osd_connection.url}/api/saved_objects/_import"
     form_data = {
         "file": (
             "export.ndjson",
@@ -109,7 +102,7 @@ def push_saved_objects(
         files=form_data,
         params=params,
         stream=True,
-        verify=verify_ssl,
+        verify=osd_connection.verify_ssl,
     )
     response.raise_for_status()
     result = response.json()
@@ -140,13 +133,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.output:
         args.output.write_text(ndjson, encoding="utf-8")
     elif args.osd_url:
-        bearer = args.osd_bearer or os.environ.get("OPENSEARCH_BEARER")
         response = push_saved_objects(
             saved_objects=ndjson,
-            osd_url=args.osd_url,
-            verify_ssl=args.verify_ssl,
-            bearer_token=bearer,
-            tenant=args.osd_tenant,
+            osd_connection=OSDConnectionSettings.from_args(args),
             overwrite=args.overwrite,
         )
         if not response.get("success"):

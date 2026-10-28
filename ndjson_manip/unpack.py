@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Iterable, Sequence
 
 from .json_ops import lookup_key, set_key
-from .osd_connection import build_osd_parser_group
+from .osd_connection import OSDConnectionSettings, build_osd_parser_group
 
 __all__ = [
     "process_ndjson_export",
@@ -130,12 +130,9 @@ def process_ndjson_export(
 
 def fetch_saved_objects(
     *,
-    osd_url: str,
-    bearer_token: str | None,
+    osd_connection: OSDConnectionSettings,
     object_types: str,
     include_references: bool,
-    tenant: str | None,
-    verify_ssl: bool = True,
 ) -> Iterable[str]:
     """Stream NDJSON from an OpenSearch Dashboards instance."""
 
@@ -146,14 +143,10 @@ def fetch_saved_objects(
         "includeReferencesDeep": include_references,
         "excludeExportDetails": True,
     }
-    headers = {"osd-xsrf": "true", "Content-Type": "application/json"}
-    if bearer_token:
-        headers["Authorization"] = f"Bearer {bearer_token}"
-    if tenant:
-        headers["securitytenant"] = tenant
-    url = f"{osd_url}/api/saved_objects/_export"
+    headers = osd_connection.headers()
+    url = f"{osd_connection.url}/api/saved_objects/_export"
     response = requests.post(
-        url, headers=headers, json=body, stream=True, verify=verify_ssl
+        url, headers=headers, json=body, stream=True, verify=osd_connection.verify_ssl
     )
     response.raise_for_status()
     return response.iter_lines(decode_unicode=True)  # type: ignore
@@ -178,14 +171,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
         return 0
 
-    bearer = args.osd_bearer or os.environ.get("OPENSEARCH_BEARER")
     lines = fetch_saved_objects(
-        osd_url=args.osd_url,
-        bearer_token=bearer,
+        osd_connection=OSDConnectionSettings.from_args(args),
         object_types=args.object_types,
         include_references=args.include_references,
-        tenant=args.osd_tenant,
-        verify_ssl=args.verify_ssl,
     )
     process_ndjson_export(
         lines,
