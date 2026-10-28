@@ -103,17 +103,27 @@ def push_saved_objects(
         )
     }
     response = requests.post(
-        url, headers=headers, files=form_data, params=params, stream=True
+        url,
+        headers=headers,
+        files=form_data,
+        params=params,
+        stream=True,
     )
     response.raise_for_status()
     result = response.json()
-    sys.stdout.write(f"{result.get('successCount', 0)} objects imported successfully.\n")
+    sys.stdout.write(
+        f"{result.get('successCount', 0)} objects imported successfully.\n"
+    )
     for success in result.get("successResults", []):
-        sys.stdout.write(f"  {success.get('type')}: {success.get('meta', {}).get('title')}\n")
+        sys.stdout.write(
+            f"  {success.get('type')}: {success.get('meta', {}).get('title')}\n"
+        )
     if errors := result.get("errors", []):
         sys.stderr.write(f"ERROR: {len(errors)} objects failed to import:\n")
         for error in errors:
-            sys.stderr.write(f"  {error.get('error', {}).get('type', 'error')} with {error.get('type')}: {error.get('meta', {}).get('title')}\n")
+            sys.stderr.write(
+                f"  {error.get('error', {}).get('type', 'error')} with {error.get('type')}: {error.get('meta', {}).get('title')}\n"
+            )
     return result
 
 
