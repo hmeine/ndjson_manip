@@ -2,6 +2,7 @@
 """Helper functions for connecting to OpenSearch Dashboards directly."""
 
 import argparse
+import base64
 import os
 from dataclasses import dataclass
 
@@ -23,6 +24,22 @@ def build_osd_parser_group(parser: argparse.ArgumentParser) -> argparse._Argumen
         action="store_false",
         default=True,
         help="Disable SSL certificate verification when connecting to OSD",
+    )
+    osd_group.add_argument(
+        "--user",
+        "-u",
+        dest="osd_user",
+        type=str,
+        help="Username for authenticating with the OSD instance "
+        "(can also be set via OPENSEARCH_USER environment variable)",
+    )
+    osd_group.add_argument(
+        "--password",
+        "-p",
+        dest="osd_password",
+        type=str,
+        help="Password for authenticating with the OSD instance "
+        "(can also be set via OPENSEARCH_PASSWORD environment variable)",
     )
     osd_group.add_argument(
         "--bearer",
@@ -64,6 +81,8 @@ class OSDConnectionSettings:
         headers = {"osd-xsrf": "true"}
         if self.bearer:
             headers["Authorization"] = f"Bearer {self.bearer}"
+        elif self.user and self.password:
+            headers["Authorization"] = f"Basic {base64.b64encode(f'{self.user}:{self.password}'.encode()).decode()}"
         if self.tenant:
             headers["securitytenant"] = self.tenant
         return headers
